@@ -8,7 +8,7 @@
 	<div id="app">
 		<h2>agregar elementos a una lista</h2>
 		<form action="" v-on:submit.prevent="guardarTarea">
-			<input v-model="nuevaTarea" type="text" v-model="nuevaTarea">
+			<input type="text" v-model="nuevaTarea">
 			<input type="submit" value="Guardar">
 		</form>
 
@@ -28,13 +28,34 @@
 		<hr>
 		<h2>Atributos dinamicos</h2>
 		<!-- type range van de 0 a 100, por eso se multiplican (imagen mas grande) -->
-		<input type="range" v-model="ancho"> Ancho * 3
+		<input type="range" v-model="ancho"> Ancho * <input type="text" size="5" v-model="porAncho">
 		<br>
-		<input type="range" v-model="alto">	Alto * 3
+		<input type="range" v-model="alto">	Alto * <input type="text" size="5" v-model="porAlto">
 		<br>
 		{{ urlCompleta }}
 		<br>
 		<img :src="urlCompleta" alt="">
+
+		<hr>
+		<h2>Renderizar elementos a una lista </h2>
+		<p v-for="(propiedad, valor) in usuario">{{ valor }} : {{ propiedad }}</p>
+			<li v-for="(tarea, index) in tareas2">
+				<!-- propiedades de objetos -->
+				{{ index+1 }} - {{ tarea.nombre }} {{ tarea.tiempo }}
+			</li>
+
+		<p>filtrar lista por tiempo y nombre</p>
+		<input type="range" v-model="tiempo">{{ tiempo }}
+		<br>
+		<input type="search" v-model="busqueda" placeholder="Buscar tarea">
+		<br>
+		<ul>
+			<li v-for="tarea in filtroTareas2">
+				{{ tarea.nombre }} {{ tarea.tiempo }}
+			</li>
+		</ul>
+		<hr>
+
 
 		<!-- verificacion de vue -->
 		<pre>{{ $data }}</pre>
