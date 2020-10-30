@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Manejo de eventos</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div id="app" class="container">
+		<div class="left">
+			<img
+				v-on:mouseover="toggleShowPrices"
+				v-on:mouseout="toggleShowPrices"
+				v-bind:src="img" v-bind:alt="name" width="50px;"
+			>
+			<p>{{ showPrices }}</p>
+
+			<span v-on:click="toggleShowPrices">
+				{{ showPrices ? '🙈' : '🐵' }}
+			</span>
+
+			<ul v-show="showPrices">
+				<li v-for="d in pricesWithDays">
+					{{ d.day }} - {{ d.value }}
+				</li>
+			</ul>
+		</div>
+
+		<div class="right">
+			<!-- verificacion de vue -->
+			<pre>{{ $data }}</pre>
+		</div>
+	</div>
+
+	<script src="js/vue.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		const app = new Vue({					//instancia
+			el: "#app",
+			data() {
+				return {
+					name: 'Bitcoin',
+					img: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png',
+					changePercent: 10,
+					pricesWithDays : [
+						{ day: 'Lunes', value: 8400},
+						{ day: 'Martes', value: 5400},
+						{ day: 'Miercoles', value: 3300},
+						{ day: 'Jueves', value: 9000},
+						{ day: 'Viernes', value: 7600},
+						{ day: 'Sabado', value: 8400},
+						{ day: 'Domingo', value: 10000},
+					],
+					showPrices: true,
+				}
+			},
+			methods : {
+				toggleShowPrices(){
+					this.showPrices = !this.showPrices
+				}
+			}
+		});
+
+	</script>
+</body>
+</html>
