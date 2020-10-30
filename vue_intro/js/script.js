@@ -1,6 +1,7 @@
 const app = new Vue({					//instancia
 	el: "#app", 			//parametro
 	data: {					//modelo
+		titulo: "Aprendiendo VueJs",
 		nuevaTarea: '',		//propiedades del modelo
 		tareas: [],
 		tareas2: [
