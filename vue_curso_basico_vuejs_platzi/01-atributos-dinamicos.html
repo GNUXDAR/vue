@@ -16,21 +16,21 @@
 				<span v-else-if="changePercent < 0">👎</span>
 				<span v-else>🤞</span>
 
-				<!-- mantiene en el dom los elementos, pero ocultos -->
+				<!-- a diferencia de lo anterior, mantiene en el dom los elementos, pero ocultos -->
 				<span v-show="changePercent > 0">👍</span>
 				<span v-show="changePercent < 0">👎</span>
 				<span v-show="changePercent == 0">🤞</span>
 
 				<!-- Renderizado de listas -->
 				<ul>
-					<li v-for="(price, index) in prices" v-bind_key="price">
-						{{ index }} - {{ price }}
+					<li v-for="(price, index) in prices" v-bind:key="price">
+						{{ index+1 }} - {{ price }}
 					</li>
 				</ul>
 
 				<ul>
-					<li v-for="d in pricesWithDays">
-						{{ d.day }} - {{ d.value }}
+					<li v-for="(d, i) in pricesWithDays" v-bind:key="d.day">
+						{{ i+1 }} - {{ d.day }} - {{ d.value }}
 					</li>
 				</ul>
 			</h1>
@@ -46,3 +46,11 @@
 	<script src="js/app.js" type="text/javascript"></script>
 </body>
 </html>
+<!-- directivas -->
+<!--
+	v-bind
+	v-if
+	v-else
+	v-show
+	v-for
+ -->

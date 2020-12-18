@@ -5,7 +5,7 @@ const app = new Vue({					//instancia
 			name: 'Bitcoin',
 			img: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png',
 			changePercent: 10,
-			prices: [5000, 2500, 1225, 3200, 4500, 6000, 8000],
+			prices: [15000, 2500, 1225, 3200, 4500, 6000, 8000],
 			pricesWithDays : [
 				{ day: 'Lunes', value: 8400},
 				{ day: 'Martes', value: 5400},

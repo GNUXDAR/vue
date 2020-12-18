@@ -2,25 +2,40 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Manejo de eventos</title>
+	<title>Manejo de eventos, condicionales, v-bind:class, v-bind:style propiedades computadas y watchers</title>
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 	<div id="app" class="container">
-		<div class="left">
+		<!-- estilos dinamicos desde valor desde data con v-bind:style-->
+		<div class="left" v-bind:style="{ background: '#' + color }">
 			<img
+				class="mouse"
 				v-on:mouseover="toggleShowPrices"
 				v-on:mouseout="toggleShowPrices"
 				v-bind:src="img" v-bind:alt="name" width="50px;"
 			>
-			<p>{{ showPrices }}</p>
+			<!-- atributo class con v-bind -->
+			<h1 v-bind:class="changePercent > 0 ? 'green' : 'red'">
+				{{ title }}
+			</h1>
 
-			<span v-on:click="toggleShowPrices">
-				{{ showPrices ? '🙈' : '🐵' }}
+			<p>Mostrar: {{ showPrices }}</p>
+
+			<span v-on:click="toggleShowPrices" class="mouse">
+				{{ showPrices ? '🐵' : '🙈' }}
 			</span>
+			<br>
+			<input type="number" v-model="value">	<span>$</span>
+			<br>
+			<span>{{ convertedValue }} {{ name }}</span>
 
-			<ul v-show="showPrices">
-				<li v-for="d in pricesWithDays">
+			<ul v-show="showPrices"> <!-- muestra si es true -->
+				<!-- aplicar v-bind: class con condicional y con objetos -->
+				<li
+					class="uppercase"
+					v-bind:class="{ orange: d.value === price, red: d.value < price, green: d.value > price  }"
+					v-for="d in pricesWithDays">
 					{{ d.day }} - {{ d.value }}
 				</li>
 			</ul>
@@ -39,8 +54,12 @@
 			data() {
 				return {
 					name: 'Bitcoin',
+					symbol: 'BTC',
 					img: 'https://cryptologos.cc/logos/bitcoin-btc-logo.png',
 					changePercent: 10,
+					value: 0,
+					color: 'f4f4f4',
+					price: 8400,
 					pricesWithDays : [
 						{ day: 'Lunes', value: 8400},
 						{ day: 'Martes', value: 5400},
@@ -53,9 +72,30 @@
 					showPrices: true,
 				}
 			},
+			//propiedadas computadas, trabajan con valores del modelo y retorna un valor compuesto (siempre retornan algo)
+			computed: {
+				title() {
+					return `${this.name} - ${this.symbol}`
+				},
+
+				convertedValue() {
+					if (!this.value) {
+						return 0
+					}
+
+					return this.value / this.price
+				},
+			},
+			// ejecutan un codigo, los nombre de las funciones deben corresponder con el nombre de un propiedad de data, recibe dos valores, el valor nuevo y un valor viejo
+			watch: {
+				showPrices(newVal, oldVal) {
+					console.log(newVal, oldVal)
+				}
+			},
 			methods : {
 				toggleShowPrices(){
 					this.showPrices = !this.showPrices
+					this.color = this.color.split('').reverse().join('')
 				}
 			}
 		});
