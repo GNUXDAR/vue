@@ -14,8 +14,27 @@
 			<!-- atributos con v-bind son los elementos del props, que púede ser como se describe en el js uno por uno o con un objeto-->
 			<!-- componente CoinDetail -->
 			<coin-detail
-			v-on:change-color="updateColor"
-			v-bind:coin="btc"></coin-detail>
+				v-on:change-color="updateColor"
+				v-bind:coin="btc">
+				<template v-slot:text>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est sed velit dolore reiciendis voluptatum, voluptatibus ut dolores. Doloribus dicta libero facilis a iste, enim ipsam facere eaque, vero quas harum.</p>
+				</template>
+				<template v-slot:link>
+					<a href="#">link!</a>
+				</template>
+			</coin-detail>
+
+			<!--cada componente por mas que sea el mismo, es aislado uno de otro-->
+			<coin-detail
+				v-on:change-color="updateColor"
+				v-bind:coin="btc">
+				<template v-slot:text>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Est sed velit dolore reiciendis voluptatum, voluptatibus ut dolores. Doloribus dicta libero facilis a iste, enim ipsam facere eaque, vero quas harum.</p>
+				</template>
+				<template v-slot:link>
+					<a href="#">link!</a>
+				</template>
+			</coin-detail>
 		</div>
 
 		<div class="right">

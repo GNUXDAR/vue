@@ -1,5 +1,5 @@
 		const app =
-		Vue.component('CoinDetail', {
+		Vue.component('coin-detail', {
 			// props ""propiedad donde podemos definir cuales son las propiedadas
 			//que el componente padre le va enviar componente hijo
 			//props: ['changePercent', 'title', 'img', 'name', 'price'],  //una manera de pasar los elementos del padre
@@ -16,7 +16,8 @@
 				toggleShowPrices(){
 					this.showPrices = !this.showPrices
 					this.$emit('change-color', 'FF96C8')
-					// $emit es una funcion del core de VUE
+					// $emit es una funcion del core de VUE, 
+					//indicamos que nuestro componente tiene que evitir un evento cada vez que se ejecute este evento
 				}
 			},
 			//propiedadas computadas, trabajan con valores del modelo y retorna un valor compuesto (siempre retornan algo)
@@ -33,6 +34,14 @@
 					return `${this.coin.name} - ${this.coin.symbol}`
 				}
 			},
+
+			created() {
+				console.log('created CoinDetail..')
+			},
+
+			mounted() {
+				console.log('mounted CoinDetail..')
+			},
 			// los componentes de vue necesitan tener un componen padre unico - div
 			template: `
 			<div>
@@ -48,13 +57,16 @@
 					<p>Mostrar: {{ showPrices }}</p>
 
 					<span v-on:click="toggleShowPrices" class="mouse">
-						{{ showPrices ? '🐵' : '🙈' }}
+  						{{ showPrices ? '🐵' : '🙈' }}
 					</span>
 				</h1>
 
 				<input type="number" v-model="value">	<span>$</span>
 				<br>
 				<span>{{ convertedValue }} {{ title }}</span>
+
+				<slot name="text"></slot>
+				<slot name="link"></slot>
 
 				<br>
 				<ul v-show="showPrices"> <!-- muestra si es true -->
@@ -95,6 +107,15 @@
 					color: 'f4f4f4',
 				}
 			},
+
+			created() {
+				console.log('created..')
+			},
+
+			mounted() {
+				console.log('mounted..')
+			},
+
 			methods : {
 				updateColor(color){
 					this.color = color || this.color
