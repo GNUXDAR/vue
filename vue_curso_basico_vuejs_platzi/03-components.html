@@ -33,7 +33,10 @@
 		  		this.counter += 1
 		  	}
 		  },
-		  template: '<button v-on:click="increment">Me han pulsado {{ counter }} veces.</button>'
+		  template: `
+		  <div>
+		  	<button v-on:click="increment">Me han pulsado {{ counter }} veces.</button>
+		  </div>`
 		})
 		new Vue({
 			el: '#app',
