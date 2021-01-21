@@ -10,3 +10,7 @@ npm i -g serve
 serve -s dist  (webserver con los ficheros js)
 
 vue ui
+npm cache clean --force
+
+## install
+npm i -S vue-router
