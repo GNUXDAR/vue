@@ -1,6 +1,7 @@
 <template>
     <div>
-        <art-assets-table  v-bind:assets="assets" />
+        <bounce-loader :loading="isLoading" :color="'#68d391'" :size="100" /><!--componente de vue-spiner -->
+        <art-assets-table v-if="!isLoading" :assets="assets" /> <!-- v-if="!isLoading" se muestra si es false -->
     </div>
 </template>
 
@@ -16,13 +17,16 @@ export default {
 
     data(){
         return {
+            isLoading: false,
             assets: []
         }
     },
 
     created() {
+        this.isLoading = true
         api.getAssets()
             .then(assets => (this.assets = assets))
+            .finally(() => this.isLoading = false)
     }
 }
 </script>
