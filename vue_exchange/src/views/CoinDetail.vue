@@ -1,8 +1,11 @@
 <template>
   <div class="flex-col">
     <div class="flex justify-center">
+      <bounce-loader :loading="isLoading" :color="'#68d391'" :size="100" /><!--componente de vue-spiner -->
     </div>
-    <template v-if="asset.id">
+    <div class="flex justify-center">
+    </div>
+    <template v-if="!isLoading"> <!-- v-if="!isLoading" se muestra si es false -->
       <div class="flex flex-col sm:flex-row justify-around items-center">
         <div class="flex flex-col items-center">
           <img
@@ -46,60 +49,55 @@
             </li>
           </ul>
         </div>
-
-        <div class="my-10 sm:mt-0 flex flex-col justify-center text-center">
-          <button
-            @click="toggleConverter"
-            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-          ></button>
-
-          <div class="flex flex-row my-5">
-            <label class="w-full" for="convertValue">
-              <input
-                v-model="convertValue"
-                id="convertValue"
-                type="number"
-                class="text-center bg-white focus:outline-none focus:shadow-outline border border-gray-300 rounded-lg py-2 px-4 block w-full appearance-none leading-normal"
-              />
-            </label>
-          </div>
-        </div>
       </div>
 
+      <line-chart class="my-10"
+        :colors="['orange']"
+        :min="min"
+        :max="max"
+        :data="history.map(h => [h.date, parseFloat(h.priceUsd).toFixed(2)])"
+      /><!-- componente de vue-chartkic-->
 
       <h3 class="text-xl my-10">Mejores Ofertas de Cambio</h3>
       <table>
-        <!-- <tr v-for="m in markets" :key="`${m.exchangeId}-${m.priceUsd}`" class="border-b">
+        <tr v-for="m in markets" :key="`${m.exchangeId}-${m.priceUsd}`" class="border-b">
           <td>
             <b>{{ m.exchangeId }}</b>
           </td>
-          <td>{{ m.priceUsd | dollar }}</td>
+          <td>{{  m.priceUsd | dollar }}</td>
           <td>{{ m.baseSymbol }} / {{ m.quoteSymbol }}</td>
           <td>
-            <px-button
-              :is-loading="m.isLoading || false"
-              v-if="!m.url"
-              @custom-click="getWebSite(m)"
-            >
+            <art-button
+              :is-loading = "m.isLoading || false"
+              v-if = "!m.url"
+              @custom-click = "getWebsite(m)">
               <slot>Obtener Link</slot>
-            </px-button>
-            <a v-else class="hover:underline text-green-600" target="_blanck">{{ m.url }}</a>
+            </art-button>
+
+            <a v-else class="hover:underline text-green-600" target="_blank">
+              {{ m.url }}
+            </a>
           </td>
-        </tr> -->
+        </tr>
       </table>
     </template>
   </div>
 </template>
 
 <script>
+import ArtButton from '../components/ArtButton.vue'
 import api from '@/api'
+
 export default {
+  components: { ArtButton },
     name: 'CoinDetail',
 
     data() {
         return {
-            asset: {},
-            history: []
+          isLoading: false, 
+          asset: {},
+          history: [],
+          markets: []
         }
     },
 
@@ -128,17 +126,32 @@ export default {
     },
 
     methods: {
-        getCoin() {
-            const id = this.$route.params.id
+        getCoin() { //obtener la informacion de la api y ser ejecutada en created()
+            const id = this.$route.params.id    //$rout accede a las rutas y asi al id
+            this.isLoading = true
+
             Promise.all([
-                api.getAsset(id), 
-                api.getAssetHistory(id)]).then(
-                ([asset, history]) => {
+                  api.getAsset(id), 
+                  api.getAssetHistory(id),
+                  api.getMarkets(id)
+                ]).then(
+                ([asset, history, markets]) => {
                     this.asset = asset
                     this.history = history
+                    this.markets = markets
                 }
             )
-        }
+            .finally(() => this.isLoading = false)
+        },
+      
+      getWebsite(exchange){
+        this.$set(exchange, 'isLoading', true)
+        return api.getExchange(exchange.exchangeId).then(res => {
+          this.$set(exchange, 'url', res.exchangeUrl)  //corrigiendo problemas de reactividad, de objetos o array de cosas que se agregan luegos
+        }).finally(() => {
+            this.$set(exchange, 'isLoading', false)  //se cambia el isLoading
+        })
+      }
     }
 
 }
