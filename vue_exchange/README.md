@@ -27,3 +27,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### install plugind
 npm i -S tailwindcss
 npm i -S numeral
+npm i -S @saeris/vue-spinners vue-chartkick
+npm i -S chart.js
