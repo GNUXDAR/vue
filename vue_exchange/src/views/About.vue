@@ -7,6 +7,6 @@
 
         <router-link 
             to="/"
-            class="mt-5 text-xl text-green-600 hover:underline">Inicio</router-link>
+            class="bg-green-400 hover:bg-green-500 text-white font-semibold hover:text-white py-2 border border-gree-500 hover:border-transparent rounded">Inicio</router-link>
     </div>
 </template>
