@@ -13,6 +13,7 @@
                 <th>Cap de mercado</th>
                 <th>Variacion 24 hrs</th>
                 <td class="hidden sm:block">
+                    <!-- input de filtro, con v-model con la propiedad filter progrmada en script, con una computed -->
                     <input class="bg-gray-100 focus:outline-none border-b border-gray-400 py-2 px-4 block w-full appearance-none leading-normal" 
                     id="filter"
                     placeholder="Buscar..."
@@ -86,7 +87,7 @@ export default {
         }
     },
     computed: {
-        filteredAssets() { //para buscar por el symbol o por el nombre de la cryptomoneda
+        filteredAssets() { //filtro para buscar por el symbol o por el nombre de la cryptomoneda
 
             const altOrder = this.sortOrder == 1 ? -1 : 1
 

@@ -4,7 +4,9 @@
         class="bg-transparente hover:bg-green-500 text-green-700 font-semibold hover:text-white py-2 border border-gree-500 hover:border-transparent rounded">
         
         <beat-loader :loading = "isLoading" :color = "'#68d391'" :size="8" />  <!-- disponible de la libreria vue-spiner -->
-        <slot v-show = "isLoading"></slot>
+        <span v-show = "!isLoading">
+            <slot ></slot>
+        </span>
     </button>
 </template>
 
