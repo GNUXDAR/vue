@@ -26,6 +26,7 @@ function getAssetHistory(coin) {
     .then(res => res.data)
 }
 
+//recibe la moneda
 function getMarkets(coin) {
     return fetch(`${url}/assets/${coin}/markets?limit=7`)
     .then(res => res.json())
