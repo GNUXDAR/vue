@@ -1,7 +1,7 @@
 <template>
 <!-- <div id="app"> -->
   <main>
-    <art-header />
+    <art-header :links="links" />
 
     <router-view class="cointainer px-5 sm:px-20 flex justify-center" />
   </main>
@@ -16,6 +16,32 @@ export default {
   name: 'App',
   components: {
     ArtHeader,
+  },
+  data(){
+    return {
+      links: [
+        {
+          title: 'BTC',
+          to: { name: 'coin-detail', params: { id: 'bitcoin' }}
+        },
+        {
+          title: 'ETH',
+          to: { name: 'coin-detail', params: { id: 'ethereum' }}
+        },
+        {
+          title: 'XRP',
+          to: { name: 'coin-detail', params: { id: 'xrp' }}
+        },
+        {
+          title: 'DOGE',
+          to: { name: 'coin-detail', params: { id: 'dogecoin' }}
+        },
+        {
+          title: 'LTC',
+          to: { name: 'coin-detail', params: { id: 'litecoin' }}
+        }
+      ]
+    }
   }
 }
 </script>
